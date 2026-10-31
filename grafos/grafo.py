@@ -212,6 +212,50 @@ def mostrar_matriz_distancias(localidades, matriz, titulo):
 
         print()
 
+# Plan de Visitas
+def plan_visitas(localidades, distancias_floyd, nombre_base, localidades_criticas):
+    indice_base = localidades.index(nombre_base)
+    pendientes = []
+
+    # Validamos los nombres y quitamos localidades repetidas
+    for localidad in localidades_criticas:
+        if localidad not in localidades:
+            raise ValueError(f"Localidad desconocida: {localidad}")
+
+        if localidad != nombre_base and localidad not in pendientes:
+            pendientes.append(localidad)
+
+    recorrido = [nombre_base]
+    kilometros_totales = 0
+    indice_actual = indice_base
+
+    while pendientes:
+        siguiente = pendientes[0]
+        indice_siguiente = localidades.index(siguiente)
+        menor_distancia = distancias_floyd[indice_actual][indice_siguiente]
+
+        # Elegimos la localidad pendiente más cercana
+        for localidad in pendientes[1:]:
+            indice = localidades.index(localidad)
+            distancia = distancias_floyd[indice_actual][indice]
+
+            if distancia < menor_distancia:
+                siguiente = localidad
+                indice_siguiente = indice
+                menor_distancia = distancia
+
+        recorrido.append(siguiente)
+        kilometros_totales += menor_distancia
+        pendientes.remove(siguiente)
+        indice_actual = indice_siguiente
+
+    # Regresamos a la base
+    if len(recorrido) > 1:
+        kilometros_totales += distancias_floyd[indice_actual][indice_base]
+        recorrido.append(nombre_base)
+
+    return recorrido, kilometros_totales
+
 def menu_m3():
     while True:
         print("\n=== M3: Red vial ===")
@@ -222,6 +266,7 @@ def menu_m3():
         print("5. DFS y conectividad")
         print("6. Dijkstra desde Deán Funes")
         print("7. Floyd")
+        print("8. Simular plan de visitas")
         print("0. Salir")
 
         opcion = input("Elegí una opción: ")
@@ -312,12 +357,38 @@ def menu_m3():
                 "Matriz de distancias mínimas de Floyd:"
             )
 
+        elif opcion == "8":
+            # Entrada provisoria que simula la lista recibida de M2
+            criticas_prueba = [
+                "Cosquín",
+                "Villa Dolores",
+                "Río Cuarto"
+            ]
+
+            distancias_floyd = floyd(matriz_adyacencia)
+
+            recorrido, kilometros = plan_visitas(
+                localidades,
+                distancias_floyd,
+                "Deán Funes",
+                criticas_prueba
+            )
+
+            print("\nLocalidades críticas de prueba:")
+            for localidad in criticas_prueba:
+                print("-", localidad)
+
+            print("\nOrden sugerido:")
+            print(" -> ".join(recorrido))
+            print("Kilómetros totales:", kilometros)
+            print("El criterio de vecino más cercano no garantiza el recorrido óptimo.")
+
         elif opcion == "0":
             print("Saliste del Módulo 3.")
             break
 
         else:
-            print("Opción no válida. Elegí un número del 0 al 7.")
+            print("Opción no válida. Elegí un número del 0 al 8.")
 
 
 if __name__ == "__main__":
