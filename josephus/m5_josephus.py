@@ -1,5 +1,7 @@
 
+
 from collections import deque
+from time import perf_counter_ns
 
 
 def josephus_simple(n, m):
@@ -71,6 +73,40 @@ def josephus_arbol(n, m):
     return guardias, suplente
 
 
+def mostrar_calendario(numero_grupo):
+    m_grupo = (numero_grupo - 1) % 4 + 1
+    guardias, suplente = josephus_arbol(12, m_grupo)
+
+    assert (guardias, suplente) == josephus_simple(12, m_grupo)
+
+    print(f"\nCalendario de guardias - Grupo {numero_grupo} (M = {m_grupo})")
+    for fin_de_semana, tecnico in enumerate(guardias, start=1):
+        print(f"Fin de semana {fin_de_semana}: Tecnico {tecnico}")
+    print(f"Suplente de emergencias: Tecnico {suplente}")
+
+    return m_grupo
+
+
+def medir_tiempo(funcion, n, m):
+    inicio = perf_counter_ns()
+    resultado = funcion(n, m)
+    tiempo = perf_counter_ns() - inicio
+    return resultado, tiempo
+
+
+def comparar_rendimiento(m_grupo):
+    for m in (m_grupo, 1000):
+        print(f"\nComparacion de tiempos con M = {m}")
+        print("Tecnicos | Simple (ms) | Arbol (ms)")
+
+        for n in (1000, 10000, 100000):
+            resultado_simple, tiempo_simple = medir_tiempo(josephus_simple, n, m)
+            resultado_arbol, tiempo_arbol = medir_tiempo(josephus_arbol, n, m)
+
+            assert resultado_simple == resultado_arbol
+            print(f"{n:>8} | {tiempo_simple / 1_000_000:>11.3f} | {tiempo_arbol / 1_000_000:>10.3f}")
+
+
 if __name__ == "__main__":
     guardias_simple, suplente_simple = josephus_simple(5, 1)
     guardias_arbol, suplente_arbol = josephus_arbol(5, 1)
@@ -82,3 +118,10 @@ if __name__ == "__main__":
     assert suplente_simple == 3
     assert (guardias_simple, suplente_simple) == (guardias_arbol, suplente_arbol)
     print("Las dos implementaciones coinciden.")
+
+    numero_grupo = int(input("\nNumero de grupo (1 al 15): "))
+    if 1 <= numero_grupo <= 15:
+        m_grupo = mostrar_calendario(numero_grupo)
+        comparar_rendimiento(m_grupo)
+    else:
+        print("El numero de grupo debe estar entre 1 y 15.")
