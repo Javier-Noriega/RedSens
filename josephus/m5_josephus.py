@@ -107,7 +107,7 @@ def comparar_rendimiento(m_grupo):
             print(f"{n:>8} | {tiempo_simple / 1_000_000:>11.3f} | {tiempo_arbol / 1_000_000:>10.3f}")
 
 
-if __name__ == "__main__":
+def ejecutar_m5():
     guardias_simple, suplente_simple = josephus_simple(5, 1)
     guardias_arbol, suplente_arbol = josephus_arbol(5, 1)
 
@@ -120,8 +120,14 @@ if __name__ == "__main__":
     print("Las dos implementaciones coinciden.")
 
     numero_grupo = int(input("\nNumero de grupo (1 al 15): "))
+
     if 1 <= numero_grupo <= 15:
         m_grupo = mostrar_calendario(numero_grupo)
         comparar_rendimiento(m_grupo)
     else:
         print("El numero de grupo debe estar entre 1 y 15.")
+
+
+if __name__ == "__main__":
+    ejecutar_m5()
+
