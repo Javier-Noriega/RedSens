@@ -256,7 +256,7 @@ def plan_visitas(localidades, distancias_floyd, nombre_base, localidades_critica
 
     return recorrido, kilometros_totales
 
-def menu_m3():
+def menu_m3(estaciones_criticas=None):
     while True:
         print("\n=== M3: Red vial ===")
         print("1. Ver localidades cargadas")
@@ -358,12 +358,17 @@ def menu_m3():
             )
 
         elif opcion == "8":
-            # Entrada provisoria que simula la lista recibida de M2
-            criticas_prueba = [
-                "Cosquín",
-                "Villa Dolores",
-                "Río Cuarto"
-            ]
+            if estaciones_criticas is None:
+                print("\nM2 todavía no entregó las estaciones críticas.")
+                continue
+
+            localidades_criticas = []
+
+            for estacion in estaciones_criticas:
+                localidad = estacion.localidad
+
+                if localidad not in localidades_criticas:
+                    localidades_criticas.append(localidad)
 
             distancias_floyd = floyd(matriz_adyacencia)
 
@@ -371,11 +376,11 @@ def menu_m3():
                 localidades,
                 distancias_floyd,
                 "Deán Funes",
-                criticas_prueba
+                localidades_criticas
             )
 
-            print("\nLocalidades críticas de prueba:")
-            for localidad in criticas_prueba:
+            print("\nLocalidades críticas:")
+            for localidad in localidades_criticas:
                 print("-", localidad)
 
             print("\nOrden sugerido:")
