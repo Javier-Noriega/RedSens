@@ -35,3 +35,5 @@ encontrada = tablahash.buscar("CBA-0358")
 print()
 print("Encontrada:")
 print(encontrada)
+
+print(tablahash.factor_carga())
