@@ -5,7 +5,7 @@ from .abb import ABB
 from .avl import AVL
 from Modelos.estacion import estacion
 
-SEMILLA = 1026   # <-- cambiar por la semilla de tu grupo
+SEMILLA = 5026   # <-- cambiar por la semilla de tu grupo
 
 def est(n, bateria):
     return estacion(f"CBA-{n:04d}", n, f"Estacion {n}", "Rio Tercero",
