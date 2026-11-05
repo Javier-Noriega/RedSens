@@ -78,6 +78,25 @@ def bfs(localidades, lista_adyacencia, nombre_origen):
 
     return distancias
 
+def mostrar_bfs_desde(origen):
+    niveles = bfs(localidades, lista_adyacencia, origen)
+
+    print(f"\nBFS desde {origen}:")
+    nivel_maximo = max(niveles)
+
+    for nivel in range(1, nivel_maximo + 1):
+        print(f"A {nivel} tramo(s):")
+        for i in range(len(localidades)):
+            if niveles[i] == nivel:
+                print("-", localidades[i])
+
+    inalcanzables = []
+    for i in range(len(localidades)):
+        if niveles[i] == -1:
+            inalcanzables.append(localidades[i])
+
+    if inalcanzables:
+        print("No alcanzables:", ", ".join(inalcanzables))
 
 # Algoritmo DFS
 def dfs(localidades, lista_adyacencia, nombre_origen, ruta_cortada=None):
@@ -262,7 +281,7 @@ def menu_m3(estaciones_criticas=None):
         print("1. Ver localidades cargadas")
         print("2. Ver lista de adyacencia")
         print("3. Ver matriz de adyacencia")
-        print("4. BFS desde Deán Funes")
+        print("4. BFS desde Deán Funes o localidad elegida")
         print("5. DFS y conectividad")
         print("6. Dijkstra desde Deán Funes")
         print("7. Floyd")
@@ -297,14 +316,31 @@ def menu_m3(estaciones_criticas=None):
             )
 
         elif opcion == "4":
-            niveles = bfs(localidades, lista_adyacencia, "Deán Funes")
+            while True:
+                print("\n=== BFS por localidad ===")
+                print("1. Desde la base: Deán Funes")
+                print("2. Escribir otra localidad")
+                print("0. Volver al menú M3")
 
-            print("\nBFS desde Deán Funes:")
-            for nivel in range(1, 4):
-                print(f"A {nivel} tramo(s):")
-                for i in range(len(localidades)):
-                    if niveles[i] == nivel:
-                        print("-", localidades[i])
+                seleccion = input("Elegí una opción: ").strip()
+
+                if seleccion == "0":
+                    break
+                elif seleccion == "1":
+                    origen = "Deán Funes"
+                elif seleccion == "2":
+                    origen = input(
+                        "Escribí el nombre de la localidad: "
+                    ).strip()
+                else:
+                    print("Opción no válida.")
+                    continue
+
+                if origen not in localidades:
+                    print("Esa localidad no está en la red.")
+                    continue
+
+                mostrar_bfs_desde(origen)
 
         elif opcion == "5":
             recorrido = dfs(localidades, lista_adyacencia, "Deán Funes")
