@@ -2,7 +2,7 @@ import csv
 import math
 from collections import deque
 from pathlib import Path
-
+from config.localidades import LOCALIDADES
 ruta_csv = Path(__file__).with_name("rutas.csv")
 rutas = []
 
@@ -16,20 +16,7 @@ with ruta_csv.open("r", encoding="utf-8-sig", newline="") as archivo:
         kilometros = int(fila[2])
         rutas.append((origen, destino, kilometros))
 
-localidades = [
-    "Córdoba",
-    "Villa Carlos Paz",
-    "Alta Gracia",
-    "Jesús María",
-    "Río Tercero",
-    "Villa María",
-    "San Francisco",
-    "Cosquín",
-    "La Falda",
-    "Deán Funes",
-    "Villa Dolores",
-    "Río Cuarto"
-]
+localidades = LOCALIDADES
 
 cantidad = len(localidades)
 
