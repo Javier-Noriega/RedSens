@@ -1,4 +1,5 @@
 from Modelos.estacion import estacion
+from config.localidades import LOCALIDADES
 
 class GestorEstaciones:
 
@@ -6,15 +7,44 @@ class GestorEstaciones:
         self.sistema = sistema
 
     def registrar_estacion(self):
-        codigo=input("Codigo: ")
-        numero=input("Numero: ")
-        nombreestacion=input("Nombre de la Estacion: ")
-        localidad=input("Localidad: ")
-        tipoestacion=input("Tipo de estacion: ")
-        bateria=input("Bateria: ")
-        diasSinVisita=input("Dias sin visita: ")
+
+        codigo = input("Codigo: ")
+
+        numero = int(input("Numero: "))
+
+        nombreestacion = input("Nombre de la Estacion: ")
+
+        print("\nLocalidades disponibles:\n")
+
+        for i, localidad in enumerate(LOCALIDADES, start=1):
+            print(f"{i}. {localidad}")
+
+        opcion_localidad = int(
+            input("\nSeleccione localidad: ")
+        )
+
+        if opcion_localidad < 1 or opcion_localidad > len(LOCALIDADES):
+            print("Localidad invalida")
+            return
+
+        localidad = LOCALIDADES[
+            opcion_localidad - 1
+        ]
+
+        tipoestacion = input("Tipo de estacion: ")
+
+        bateria = int(input("Bateria: "))
+
+        diasSinVisita = int(
+            input("Dias sin visita: ")
+        )
+
         nuevaEstacion=estacion(codigo,numero,nombreestacion,localidad,tipoestacion,bateria,diasSinVisita)
+
         self.sistema.tabla_hash.insertar(nuevaEstacion)
+        self.sistema.abb.insertar(nuevaEstacion)
+        self.sistema.avl.insertar(nuevaEstacion)
+        
         print("\nEstacion registrada correctamente")
 
     def buscar_estacion(self):
@@ -36,8 +66,11 @@ class GestorEstaciones:
 
     def eliminar_estacion(self):
         codigo = input("Codigo: ")
+        estacion=self.sistema.tabla_hash.buscar(codigo)
 
         eliminado = self.sistema.tabla_hash.eliminar(codigo)
+        self.sistema.abb.eliminar(estacion.numero)
+        self.sistema.avl.eliminar(estacion.numero)
 
         if eliminado:
             print("Estacion eliminada correctamente")
