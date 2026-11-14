@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from m4.huffman import (
+from M4_huffman.huffman import (
     generar_archivo_mediciones,
     construirArbolHuffman,
     generar_tabla_codigos,

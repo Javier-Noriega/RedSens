@@ -3,7 +3,7 @@ from Menu.GestorArboles import GestorArboles
 from Menu.GestorGrafos import GestorGrafos
 from Menu.GestorCompresion import GestorCompresion
 from Menu.GestorGuardias import GestorGuardias
-
+from Menu.GestorSimulacion import (GestorSimulacion)
 class Menu:
 
     def __init__(self, sistema):
@@ -14,6 +14,7 @@ class Menu:
         self.gestor_grafos = GestorGrafos(sistema)
         self.gestor_compresion = GestorCompresion(sistema)
         self.gestor_guardias = GestorGuardias(sistema)
+        self.gestor_simulacion = GestorSimulacion(sistema)
 
     def mostrar(self):
 
@@ -27,6 +28,7 @@ class Menu:
             print("3. Red vial")
             print("4. Compresión de mediciones")
             print("5. Gestion de guardias")
+            print("6. Simulacion y pruebas")
             print("0. Salir")
 
             opcion = input("\nOpcion: ")
@@ -45,6 +47,10 @@ class Menu:
 
             elif opcion == "5":
                 self.menu_guardias()
+
+            elif opcion == "6":
+                self.menu_simulacion()
+
 
             elif opcion == "0":
                 print("Saliendo...")
@@ -65,6 +71,7 @@ class Menu:
                 print("3. Eliminar estacion")
                 print("4. Mostrar tabla")
                 print("5. Estadisticas")
+                print("6. Generar estaciones simuladas")
                 print("0. Volver")
 
                 opcion = input("\nOpcion: ")
@@ -82,6 +89,9 @@ class Menu:
 
                 elif opcion == "5":
                     self.gestor_estaciones.mostrar_estadisticas()
+
+                elif opcion == "6":
+                    self.gestor_simulacion.generar_estaciones()
 
                 elif opcion == "0":
                     break
@@ -236,6 +246,103 @@ class Menu:
             elif opcion == "2":
 
                 self.gestor_guardias.analizar_rendimiento()
+
+            elif opcion == "0":
+
+                break
+
+            else:
+
+                print(
+                    "Opcion invalida"
+                )
+
+    def menu_simulacion(self):
+
+        while True:
+
+            print(
+                "\n===================================="
+            )
+
+            print(
+                " M6 SIMULACION Y PRUEBAS"
+            )
+
+            print(
+                "===================================="
+            )
+
+            print(
+                "1. Generar estaciones"
+            )
+
+            print(
+                "2. Validar semillas"
+            )
+
+            print(
+                "3. Comprobar uniformidad"
+            )
+
+            print(
+                "4. Experimento M1"
+            )
+
+            print(
+                "5. Experimento M2"
+            )
+
+            print(
+                "6. Experimento M5"
+            )
+
+            print(
+                "7. Ejecutar bateria completa"
+            )
+
+            print(
+                "0. Volver"
+            )
+
+            opcion = input(
+                "\nOpcion: "
+            )
+
+            if opcion == "1":
+
+                self.gestor_simulacion\
+                    .generar_estaciones()
+
+            elif opcion == "2":
+
+                self.gestor_simulacion\
+                    .validar_semillas()
+
+            elif opcion == "3":
+
+                self.gestor_simulacion\
+                    .uniformidad()
+
+            elif opcion == "4":
+
+                self.gestor_simulacion\
+                    .experimento_m1()
+
+            elif opcion == "5":
+
+                self.gestor_simulacion\
+                    .experimento_m2()
+
+            elif opcion == "6":
+
+                self.gestor_simulacion\
+                    .experimento_m5()
+
+            elif opcion == "7":
+
+                self.gestor_simulacion\
+                    .bateria_completa()
 
             elif opcion == "0":
 

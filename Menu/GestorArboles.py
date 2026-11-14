@@ -1,4 +1,4 @@
-from m2 import prueba_m2
+from M2_arboles import prueba_m2
 
 
 class GestorArboles:
