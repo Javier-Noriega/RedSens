@@ -1,4 +1,4 @@
-from josephus.m5_josephus import (
+from M5_josephus.m5_josephus import (
     mostrar_calendario,
     comparar_rendimiento
 )

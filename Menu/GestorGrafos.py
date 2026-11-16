@@ -1,4 +1,4 @@
-from grafos.grafo import (
+from M3_grafos.grafo import (
     localidades,
     lista_adyacencia,
     matriz_adyacencia,
