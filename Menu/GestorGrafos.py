@@ -67,17 +67,34 @@ class GestorGrafos:
             )
 
     def ejecutar_dfs(self):
+        base = "Deán Funes"
 
-        recorrido = dfs(
-            localidades,
-            lista_adyacencia,
-            "Deán Funes"
-        )
-
+        recorrido = dfs(localidades, lista_adyacencia, base)
         print("\nRecorrido DFS:")
-
         for indice in recorrido:
             print("-", localidades[indice])
+
+        ruta_cortada = ("Deán Funes", "Jesús María")
+        recorrido_cortado = dfs(
+            localidades,
+            lista_adyacencia,
+            base,
+            ruta_cortada
+        )
+
+        alcanzadas = set(recorrido_cortado)
+        inalcanzables = [
+            localidad
+            for indice, localidad in enumerate(localidades)
+            if indice not in alcanzadas
+        ]
+
+        print("\nAl cortar Deán Funes - Jesús María:")
+        if inalcanzables:
+            print("La red queda desconectada.")
+            print("Localidades inalcanzables:", ", ".join(inalcanzables))
+        else:
+            print("La red sigue conectada: se alcanzan las 12 localidades.")
 
     def ejecutar_dijkstra(self):
 
