@@ -1,10 +1,14 @@
 import heapq
 from collections import Counter
 import random
+import os
 
 # 1. GENERACIÓN DE ARCHIVO (M6)
-def generar_archivo_mediciones(nombre_archivo, cantidad_lineas, semilla=1026):
+def generar_archivo_mediciones(nombre_archivo, cantidad_lineas, semilla=5026):
     rnd = random.Random(semilla)
+    carpeta = os.path.dirname(nombre_archivo)
+    if carpeta:
+        os.makedirs(carpeta, exist_ok=True)
     with open(nombre_archivo, 'w', encoding='utf-8') as f:
         for _ in range(cantidad_lineas):
             numero = rnd.randint(1, 9999)
